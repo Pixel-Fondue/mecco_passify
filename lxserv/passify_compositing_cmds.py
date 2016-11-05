@@ -1,11 +1,9 @@
 #Must be inside a folder called 'lxserv' somewhere in a MODO search path.
 
-import lx
-import lxu.command
-import traceback
-import passify
+import lx, lxu.command, traceback, passify, lxifc
 
 CMD_SETUP = 'passify.setupCompositing'
+CMD_DESTROY = 'passify.destroyCompositing'
 CMD_ADD_TO_LAYER = 'passify.addToCompLayer'
 CMD_REMOVE_FROM_LAYER = 'passify.removeFromCompLayer'
 
@@ -47,6 +45,9 @@ class cmd_setup_class(lxu.command.BasicCommand):
             hide_environments_bg
             )
 
+        notifier = PassifyNotify()
+        notifier.Notify(lx.symbol.fCMDNOTIFY_DATATYPE)
+
     def basic_Execute(self, msg, flags):
         try:
             self.CMD_EXE(msg, flags)
@@ -61,6 +62,36 @@ class cmd_setup_class(lxu.command.BasicCommand):
 
 lx.bless(cmd_setup_class, CMD_SETUP)
 
+class cmd_destroy(lxu.command.BasicCommand):
+
+    _first_run = True
+
+    def __init__(self):
+        lxu.command.BasicCommand.__init__(self)
+
+    def cmd_Flags (self):
+        return lx.symbol.fCMD_MODEL | lx.symbol.fCMD_UNDO
+
+    def CMD_EXE(self, msg, flags):
+        passify.compositing.destroy()
+
+        notifier = PassifyNotify()
+        notifier.Notify(lx.symbol.fCMDNOTIFY_DATATYPE)
+
+    def basic_Execute(self, msg, flags):
+        try:
+            self.CMD_EXE(msg, flags)
+        except Exception:
+            lx.out(traceback.format_exc())
+
+    def basic_Enable(self,msg):
+        return True
+
+    def basic_ButtonName(self):
+        return "Remove Compositing"
+
+lx.bless(cmd_destroy, CMD_DESTROY)
+
 class cmd_add_to_layer(lxu.command.BasicCommand):
 
     def __init__(self):
@@ -74,6 +105,9 @@ class cmd_add_to_layer(lxu.command.BasicCommand):
     def CMD_EXE(self, msg, flags):
         layer_tag = self.dyna_String(0)
         passify.compositing.add_selected(layer_tag)
+
+        notifier = PassifyNotify()
+        notifier.Notify(lx.symbol.fCMDNOTIFY_DATATYPE)
 
     def basic_Execute(self, msg, flags):
         try:
@@ -106,6 +140,9 @@ class cmd_remove_from_layer(lxu.command.BasicCommand):
         layer_tag = self.dyna_String(0)
         passify.compositing.remove_selected(layer_tag)
 
+        notifier = PassifyNotify()
+        notifier.Notify(lx.symbol.fCMDNOTIFY_DATATYPE)
+
     def basic_Execute(self, msg, flags):
         try:
             self.CMD_EXE(msg, flags)
@@ -122,3 +159,23 @@ class cmd_remove_from_layer(lxu.command.BasicCommand):
             return "Remove from Foreground Group"
 
 lx.bless(cmd_remove_from_layer, CMD_REMOVE_FROM_LAYER)
+
+
+class PassifyNotify(lxifc.Notifier):
+    masterList = {}
+
+    def noti_Name(self):
+        return "cropper.notifier"
+
+    def noti_AddClient(self,event):
+        self.masterList[event.__peekobj__()] = event
+
+    def noti_RemoveClient(self,event):
+        del self.masterList[event.__peekobj__()]
+
+    def Notify(self, flags):
+        for event in self.masterList:
+            evt = lx.object.CommandEvent(self.masterList[event])
+            evt.Event(flags)
+
+lx.bless(PassifyNotify, "passify.notifier")

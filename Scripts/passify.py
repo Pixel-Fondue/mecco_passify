@@ -1,38 +1,56 @@
 #python
 
-# Compy
+#TODO:
 
-# Add to Background pass
-# Remove from Background pass
+# CHANGE VIEWPORT WHEN EDITING A PASS
 
-# Add to Foreground pass
-# Remove from Foreground pass
+####### Passify Floor Popover
 
-# Add to [Aux] pass
-# Remove from [Aux] pass
-# Delete [Aux] pass
-# ... (FCL)
+# Floor Settings
 
-# Add new pass
+# Add to Floor Pass
+# Passes FCL
 
-# Auto-Add Changes to Pass (Warning!)
+# This Never Happened
+
+
+####### Passify Item Layers Popover
+
+# New Layer
+# Remove Layer...
+
+# Add to Layer...
+# Add to Layers...
+# Remove from Layer...
+
+# Layers FCL
+
+# This Never Happened
+
+
+####### Passify Lighting Popover
+
+# Genenerate/Update Light Passes
+# Lighting FCL
+
+# This Never Happened
+
+
+####### Passify Variations Popover
+
+# Create Pass Group
+
+# Variation Groups FCL (nested)
+    # Variation Group FCL
+
+# Edit Pass...
 # Apply Changes
-# Discard Changes
 
-# Convert to Shadow Catcher
-# Add Shadow Choke
+# Delete Pass...
+# Delete Pass Group...
+# This Never Happened
 
-# Define Background Outputs
-# Define Foreground Outputs
-# Define [Aux] Outputs... (FCL)
 
-# Define Output Location
-# Define Output Pattern
+####### Passify Combine Pass Groups
 
-# Preview Foreground
-# Preview Background
-# Preview Full Image
-
-# Render All
-
-# Remove Compy from Scene
+####### Groups Panel Popover

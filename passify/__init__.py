@@ -24,8 +24,9 @@ def fetch_by_tag(tag):
             return i
     return None
 
-def move_to_top(item):
-    item.setParent(item.parent, len(item.parent.children()))
+def reorder(item,mode="top"):
+    index = len(item.parent.children())-1 if mode == "top" else 0
+    item.setParent(item.parent, index)
 
 def debug(message):
     if BREAKPOINTS:
@@ -99,8 +100,8 @@ def add_items(items_dict):
         items_dict[k]["item"].name = v["name"]
         items_dict[k]["item"].setTag(TAG, k)
 
-        if "move_to_top" in v and v["move_to_top"]:
-            move_to_top(items_dict[k]["item"])
+        if "reorder" in v:
+            reorder(items_dict[k]["item"],v["reorder"])
 
         if "GTYP" in v:
             items_dict[k]["item"].setTag('GTYP',v["GTYP"])

@@ -1,34 +1,31 @@
 #python
 
-import lx, lxifc, lxu.command, modo
+import lx, lxifc, lxu.command, modo, passify
 
 CMD_NAME_FCL = "passify.listPasses"
 CMD_NAME_ACTIVATE = "passify.activatePass"
 
-GROUP_NAME = 'mecco_regions'
 NONE = "none"
 
-def list_passes():
-        try:
-            modo.Scene().item(GROUP_NAME)
-        except:
+def list_passes(group_tag):
+        group = passify.fetch_by_tag(group_tag)
+
+        if group == None:
             return []
 
-        graph_kids = modo.Scene().item(GROUP_NAME).itemGraph('itemGroups').forward()
+        graph_kids = group.itemGraph('itemGroups').forward()
         passes = [i for i in graph_kids if i.type == lx.symbol.a_ACTIONCLIP]
 
         passes_list = []
-        for pass_ in passes:
-            passes_list.append(CMD_NAME_ACTIVATE + " {%s}" % pass_.id)
+        for p in passes:
+            passes_list.append(CMD_NAME_ACTIVATE + " {%s} {%s}" % (group_tag, p.id))
 
-        passes_list.append(CMD_NAME_ACTIVATE + " {%s}" % NONE)
-        passes_list.append('- ')
-        passes_list.append("cropper.clearAll")
+        passes_list.append(CMD_NAME_ACTIVATE + " {%s} {%s}" % (group_tag, NONE))
 
         return passes_list
 
 
-class cropper_fcl(lxifc.UIValueHints):
+class passify_fcl(lxifc.UIValueHints):
     def __init__(self, items):
         self._items = items
 
@@ -42,18 +39,19 @@ class cropper_fcl(lxifc.UIValueHints):
         return self._items[index]
 
 
-class cmd_cropper_fcl(lxu.command.BasicCommand):
+class cmd_passify_fcl(lxu.command.BasicCommand):
     def __init__(self):
         lxu.command.BasicCommand.__init__(self)
-        self.dyna_Add('cmds', lx.symbol.sTYPE_INTEGER)
-        self.basic_SetFlags(0, lx.symbol.fCMDARG_QUERY)
+        self.dyna_Add('tag', lx.symbol.sTYPE_STRING)
+        self.dyna_Add('query', lx.symbol.sTYPE_INTEGER)
+        self.basic_SetFlags(1, lx.symbol.fCMDARG_QUERY)
 
         self.not_svc = lx.service.NotifySys()
         self.notifier = None
 
     def cmd_NotifyAddClient (self, argument, object):
         if self.notifier is None:
-            self.notifier = self.not_svc.Spawn ("cropper.notifier", '')
+            self.notifier = self.not_svc.Spawn ("passify.notifier", '')
             self.notifier.AddClient (object)
 
     def cmd_NotifyRemoveClient (self, object):
@@ -61,9 +59,9 @@ class cmd_cropper_fcl(lxu.command.BasicCommand):
             self.notifier.RemoveClient (object)
 
     def arg_UIValueHints(self, index):
-        if index == 0:
-            return cropper_fcl(list_passes())
-        return Cropper_FCL_Notifiers()
+        if index == 1:
+            return passify_fcl(list_passes(self.dyna_String(0)))
+        return Passify_FCL_Notifiers()
 
     def cmd_Execute(self,flags):
         pass
@@ -71,46 +69,49 @@ class cmd_cropper_fcl(lxu.command.BasicCommand):
     def cmd_Query(self,index,vaQuery):
         pass
 
+lx.bless(cmd_passify_fcl, CMD_NAME_FCL)
 
-class cmd_cropper_activate(lxu.command.BasicCommand):
+class Passify_FCL_Notifiers(lxu.command.BasicHints):
+
+    def __init__(self):
+        self._notifiers = [('passify.notifier','')]
+
+
+class cmd_passify_activate(lxu.command.BasicCommand):
     def __init__(self):
         lxu.command.BasicCommand.__init__(self)
-        self.dyna_Add('id', lx.symbol.sTYPE_STRING)
+        self.dyna_Add('group_tag', lx.symbol.sTYPE_STRING)
+        self.dyna_Add('pass_id', lx.symbol.sTYPE_STRING)
 
     def basic_ButtonName(self):
-        id_ = self.dyna_String(0) if self.dyna_IsSet(0) else None
+        group_tag = self.dyna_String(0) if self.dyna_IsSet(0) else None
+        item_id = self.dyna_String(1) if self.dyna_IsSet(1) else None
+        item_id = item_id if item_id != NONE else None
 
-        if id_ == NONE:
+        if item_id == None:
             return "(none)"
 
-        if id_ != NONE:
+        if item_id != None:
             try:
-                return modo.Scene().item(id_).name
+                return modo.Scene().item(item_id).name
             except:
-                return "error: invalid crop id"
+                return "error: invalid pass id"
 
     def cmd_Execute(self,flags):
-        id_ = self.dyna_String(0) if self.dyna_IsSet(0) else None
+        group_tag = self.dyna_String(0) if self.dyna_IsSet(0) else None
+        item_id = self.dyna_String(1) if self.dyna_IsSet(1) else None
 
-        if id_ == NONE:
-            graph_kids = modo.Scene().item(GROUP_NAME).itemGraph('itemGroups').forward()
+        if item_id == NONE:
+            graph_kids = passify.fetch_by_tag(group_tag).itemGraph('itemGroups').forward()
             passes = [i for i in graph_kids if i.type == lx.symbol.a_ACTIONCLIP]
 
-            for pass_ in passes:
-                pass_.actionClip.SetActive(0)
+            for p in passes:
+                p.actionClip.SetActive(0)
 
-        if id_ != NONE:
+        if item_id != NONE:
             try:
-                lx.eval("view3d.projection cam")
-                lx.eval("view3d.renderCamera")
-                modo.Scene().item(id_).actionClip.SetActive(1)
+                modo.Scene().item(item_id).actionClip.SetActive(1)
             except NameError:
                 return lx.symbol.e_FAILED
 
-class Cropper_FCL_Notifiers(lxu.command.BasicHints):
-
-    def __init__(self):
-        self._notifiers = [('cropper.notifier','')]
-
-lx.bless(cmd_cropper_fcl, CMD_NAME_FCL)
-lx.bless(cmd_cropper_activate, CMD_NAME_ACTIVATE)
+lx.bless(cmd_passify_activate, CMD_NAME_ACTIVATE)

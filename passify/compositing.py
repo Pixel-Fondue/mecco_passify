@@ -6,18 +6,16 @@ passify_items = {
     "comping_masks":{
         "name":"Compositing Masks",
         "type":"mask",
-        "move_to_top":True
+        "reorder":"top"
     },
     "foreground_mask":{
-        "name":"Foreground Mask",
+        "name":"Everything Else Mask",
         "type":"mask",
         "parent":"comping_masks",
-        "itemGraphs":[
-            ('shadeLoc',"fg_grp")
-            ]
+        "reorder":"bottom"
     },
     "foreground_shader":{
-        "name":"Foreground Shader",
+        "name":"Everything Else Shader",
         "type":"defaultShader",
         "parent":"foreground_mask",
         "channels":{
@@ -33,7 +31,8 @@ passify_items = {
         "parent":"comping_masks",
         "itemGraphs":[
             ('shadeLoc',"bg_grp")
-            ]
+            ],
+        "reorder":"top"
     },
     "background_shader":{
         "name":"Background Shader",
@@ -74,7 +73,7 @@ passify_items = {
         ]
     },
     "fg_pass":{
-        "name":"Foreground Pass",
+        "name":"Everything Else",
         "type":"actionclip",
         "channelWrite":[
             ('background_shader','visCam',0),
@@ -106,6 +105,11 @@ def build(hide_env_fg, hide_env_bg):
             group.addChannel(i.channel('visCam'))
             i.channel('visCam').set(0, action=passify.fetch_by_tag("bg_pass").name)
 
+def destroy():
+    hitlist = list(passify.fetch_tagged())
+    modo.Scene().removeItems(hitlist[0])
+    if len(hitlist) > 1:
+        destroy()
 
 def add_selected(layer_tag):
     for i in passify.get_selected_and_maskable():
