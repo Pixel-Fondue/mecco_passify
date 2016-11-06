@@ -3,30 +3,78 @@
 import lx, modo
 from symbol import *
 
+def message(key_string):
+    """Retreive from passify message table."""
+    return lx.eval('query messageservice msgfind ? @passify@%s@' % key_string)
+
+def buildTag(parts_list):
+    """Concatenate tags comprised of multiple parts."""
+    return TAG_SEP.join(parts_list)
+
 def fetch_tagged():
+    """Returns a list of modo items with PSFY tags."""
     tagged = set()
     for i in modo.Scene().iterItems():
         if i.hasTag(TAG):
             tagged.add(i)
     return tagged
 
-def fetch_by_tag(tag):
+def fetch_by_tag(tags, list = False):
+    """Looks for an item in the current scene containing any of the supplied PSFY tags.
+    Returns the first item encountered by default, or a list if list param is True.
+    (Note: PSFY tags are hyphen-separated lists.)
+
+    :param tag: PSFY tag to find
+    :type tag: str or list
+
+    :param list_: return a list instead of first encounter
+    :type list_: bool"""
+
+    tags = [tags] if isinstance(tags, str) else tags
+    found = set()
+
     for i in fetch_tagged():
-        if i.getTags()[TAG] == tag:
-            return i
-    return None
+        if [t for t in tag if t in i.getTags()[TAG].split(TAG_SEP)]:
+            found.add(i)
+
+    if list_:
+        return list(found)
+    if not list_:
+        return found[0]
 
 def reorder(item,mode=TOP):
+    """Reorders a modo item to the top or bottom of its parent hierarchy.
+
+    :param item: message to display
+    :type item: modo item
+
+    :param mode: where to place within parent
+    :type mode: "top" or "bottom" """
+
     index = len(item.parent.children())-1 if mode == TOP else 0
     item.setParent(item.parent, index)
 
-def debug(message):
-    if BREAKPOINTS:
-        modo.dialogs.alert("breakpoint",message)
+def debug(message_string, do_break = False):
+    """Prints a debug message in the Event Log if DEBUG is True.
+    Throws a dialog with the same message if BREAKPOINTS and do_break are True.
+
+    :param message: message to display
+    :type message: str
+
+    :param do_break: throw dialog
+    :type do_break: bool"""
+
+    if BREAKPOINTS and do_break:
+        modo.dialogs.alert("breakpoint",message_string)
     if DEBUG:
-        lx.out("debug:" + message)
+        lx.out(message("debug: " + message_string)
 
 def deactivate_passes(pass_group):
+    """Deactivates all passes in supplied pass group.
+
+    :param pass_group: item(s) to test for maskability
+    :type pass_group: modo item object or list of objects
+    """
     graph_kids = pass_group.itemGraph('itemGroups').forward()
     for p in [i for i in graph_kids if i.type == 'actionclip']:
         p.actionClip.SetActive(0)

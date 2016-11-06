@@ -2,28 +2,12 @@
 
 #TODO:
 
-# CHANGE VIEWPORT WHEN EDITING A PASS
+####### Passify Toggler Popover
 
-####### Passify Floor Popover
+# Add to Toggler
+# Remove from Toggler
 
-# Floor Settings
-
-# Add to Floor Pass
-# Passes FCL
-
-# This Never Happened
-
-
-####### Passify Item Layers Popover
-
-# New Layer
-# Remove Layer...
-
-# Add to Layer...
-# Add to Layers...
-# Remove from Layer...
-
-# Layers FCL
+# Toggler FCL
 
 # This Never Happened
 
@@ -36,21 +20,21 @@
 # This Never Happened
 
 
-####### Passify Variations Popover
+####### Passify Passes Popover
 
+# Select Pass Group
 # Create Pass Group
+# Delete Pass Group
 
-# Variation Groups FCL (nested)
-    # Variation Group FCL
+# Select Pass
+# Create Pass
+# Delete Pass
 
-# Edit Pass...
-# Apply Changes
+# Edit Pass Channels
 
-# Delete Pass...
-# Delete Pass Group...
-# This Never Happened
+# Auto-Add (auto-apply, change viewport color scheme)
+# Apply Changes (auto-drop-auto-add)
+# Discard Changes
 
-
-####### Passify Combine Pass Groups
-
-####### Groups Panel Popover
+# Combine Pass Groups
+# Groups Panel Popover

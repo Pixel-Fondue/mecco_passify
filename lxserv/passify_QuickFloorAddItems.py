@@ -11,6 +11,11 @@ class cmd_add_to_layer(lxu.command.BasicCommand):
         return lx.symbol.fCMD_MODEL | lx.symbol.fCMD_UNDO
 
     def CMD_EXE(self, msg, flags):
+        if passify.fetch_by_tag(passify.QUICKFLOOR_PGRP) == None:
+
+            # passify.debug("No QuickFloor pass group found. Creating.", True)
+            lx.eval(passify.CMD_QUICKFLOOR_SETUP)
+
         passify.quickFloor.add_selected()
 
         notifier = passify.Notifier()
@@ -24,8 +29,5 @@ class cmd_add_to_layer(lxu.command.BasicCommand):
 
     def basic_Enable(self,msg):
         return True
-
-    def basic_ButtonName(self):
-        return "Add to QuickFloor Group"
 
 lx.bless(cmd_add_to_layer, passify.CMD_QUICKFLOOR_ADD_ITEMS)

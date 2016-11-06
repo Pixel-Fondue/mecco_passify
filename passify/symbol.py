@@ -4,6 +4,9 @@ DEBUG = True
 BREAKPOINTS = True
 
 TAG = "PSFY"
+TAGS = "tags"
+TAG_SEP = "-"
+TAG_DEFAULT = "untagged"
 
 NONE = "none"
 NAME = "name"
@@ -25,12 +28,24 @@ CMD_QUICKFLOOR_FCL = "passify.QuickFloorFCL"
 CMD_QUICKFLOOR_REMOVE_ITEMS = 'passify.QuickFloorRemoveItems'
 CMD_QUICKFLOOR_SETUP = 'passify.QuickFloorSetup'
 
-QUICKFLOOR_MASKS = "quickFloor_masks"
-QUICKFLOOR_FG_MASK = "quickFloor_fg_mask"
-QUICKFLOOR_FG_SHADER = "quickFloor_fg_shader"
-QUICKFLOOR_BG_MASK = "quickFloor_bg_mask"
-QUICKFLOOR_BG_SHADER = "quickFloor_bg_shader"
-QUICKFLOOR_BG_GRP = "quickFloor_bg_grp"
-QUICKFLOOR_PGRP = "quickFloor_pGrp"
-QUICKFLOOR_FG_PASS = "quickFloor_fg_pass"
-QUICKFLOOR_BG_PASS = "quickFloor_bg_pass"
+QUICKFLOOR = "quickFloor"
+
+QUICKFLOOR_MASKS = "qf_masks"
+QUICKFLOOR_FG_MASK = "qf_fg_mask"
+QUICKFLOOR_FG_SHADER = "qf_fg_shader"
+QUICKFLOOR_BG_MASK = "qf_bg_mask"
+QUICKFLOOR_BG_SHADER = "qf_bg_shader"
+QUICKFLOOR_BG_GRP = "qf_bg_grp"
+QUICKFLOOR_PGRP = "qf_pGrp"
+QUICKFLOOR_FG_PASS = "qf_fg_pass"
+QUICKFLOOR_BG_PASS = "qf_bg_pass"
+
+CMD_TOGGLER_ADD = "passify.TogglerAddItems"
+CMD_TOGGLER_REMOVE = "passify.TogglerRemoveItems"
+CMD_TOGGLER_FCL = "passify.TogglerFCL"
+CMD_TOGGLER_DESTORY = "passify.TogglerDestroy"
+
+TOGGLER = "toggler"
+
+TOGGLER_PGRP = "tglr_pGrp"
+TOGGLER_PASS = "tglr_pass"

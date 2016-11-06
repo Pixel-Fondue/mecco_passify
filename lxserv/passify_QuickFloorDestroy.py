@@ -27,7 +27,4 @@ class cmd_destroy(lxu.command.BasicCommand):
     def basic_Enable(self,msg):
         return True
 
-    def basic_ButtonName(self):
-        return "Remove QuickFloor"
-
 lx.bless(cmd_destroy, passify.CMD_QUICKFLOOR_DESTROY)

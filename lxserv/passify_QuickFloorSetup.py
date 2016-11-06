@@ -13,7 +13,7 @@ class cmd_setup_class(lxu.command.BasicCommand):
 
     def arg_UIHints(self, index, hints):
         if index == 0:
-            hints.Label("Hide Environments in Background Layer")
+            hints.Label(passify.message("hide_environments_bg"))
 
     def cmd_DialogInit(self):
         if self._first_run:
@@ -43,8 +43,5 @@ class cmd_setup_class(lxu.command.BasicCommand):
 
     def basic_Enable(self,msg):
         return True
-
-    def basic_ButtonName(self):
-        return "Setup QuickFloor"
 
 lx.bless(cmd_setup_class, passify.CMD_QUICKFLOOR_SETUP)

@@ -12,19 +12,19 @@ class cmd_passify_activate(lxu.command.BasicCommand):
         item_id = item_id if item_id != passify.NONE else None
 
         if item_id == None:
-            return "(none)"
+            return "(%s)" % passify.message("none")
 
         if item_id != None:
             try:
                 return modo.Scene().item(item_id).name
             except:
-                return "error: invalid pass id"
+                return "%s: %s" % (passify.message("error"), passify.message("invalid_pass_id"))
 
     def cmd_Execute(self,flags):
         item_id = self.dyna_String(0) if self.dyna_IsSet(0) else None
 
         if item_id == passify.NONE:
-            graph_kids = passify.fetch_by_tag(QUICKFLOOR_PGRP).itemGraph('itemGroups').forward()
+            graph_kids = passify.fetch_by_tag(passify.QUICKFLOOR_PGRP).itemGraph('itemGroups').forward()
             passes = [i for i in graph_kids if i.type == lx.symbol.a_ACTIONCLIP]
 
             for p in passes:

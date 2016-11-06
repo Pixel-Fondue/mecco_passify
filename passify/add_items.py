@@ -17,7 +17,9 @@ def add_items(items_dict):
     for k, v in {k:v for k, v in items_dict.iteritems() if "item" not in v}.iteritems():
         items_dict[k]["item"] = modo.Scene().addItem(v[TYPE])
         items_dict[k]["item"].name = v[NAME]
-        items_dict[k]["item"].setTag(TAG, k)
+
+        tag = buildTag(v[TAGS]) if TAGS in v else TAG_DEFAULT
+        items_dict[k]["item"].setTag(tag)
 
         if REORDER in v:
             reorder(items_dict[k]["item"],v[REORDER])

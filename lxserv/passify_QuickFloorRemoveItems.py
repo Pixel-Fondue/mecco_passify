@@ -25,7 +25,4 @@ class cmd_remove_from_layer(lxu.command.BasicCommand):
     def basic_Enable(self,msg):
         return True
 
-    def basic_ButtonName(self):
-        return "Remove from QuickFloor Group"
-
 lx.bless(cmd_remove_from_layer, passify.CMD_QUICKFLOOR_REMOVE_ITEMS)
