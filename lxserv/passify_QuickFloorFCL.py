@@ -3,7 +3,7 @@
 import lx, lxifc, lxu.command, modo, passify
 
 def list_passes():
-        group = passify.fetch_by_tag(QUICKFLOOR_PGRP)
+        group = passify.fetch_by_tag(passify.QUICKFLOOR_PGRP)
 
         if group == None:
             return []
@@ -13,9 +13,9 @@ def list_passes():
 
         passes_list = []
         for p in passes:
-            passes_list.append('passify.QuickFloorActivate' + " {%s}" % p.id)
+            passes_list.append(passify.CMD_QUICKFLOOR_ACTIVATE + " {%s}" % p.id)
 
-        passes_list.append('passify.QuickFloorActivate' + " {%s}" % passify.NONE)
+        passes_list.append(passify.CMD_QUICKFLOOR_ACTIVATE + " {%s}" % passify.NONE)
 
         return passes_list
 
