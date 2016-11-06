@@ -34,7 +34,7 @@ def fetch_by_tag(tags, list_=False):
     found = set()
 
     for i in fetch_tagged():
-        if [t for t in tag if t in i.getTags()[TAG].split(TAG_SEP)]:
+        if [t for t in tags if t in i.getTags()[TAG].split(TAG_SEP)]:
             found.add(i)
 
     if found:

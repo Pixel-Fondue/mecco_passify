@@ -47,7 +47,7 @@ def build(hide_env_bg):
             TAGS:[QUICKFLOOR, QUICKFLOOR_BG_SHADER],
             NAME:message(QUICKFLOOR_BG_SHADER),
             TYPE:"defaultShader",
-            PARENT:"quickFloor_bg_mask",
+            PARENT:QUICKFLOOR_BG_MASK,
             CHANNELS:{
                 "quaEnable":0,
                 "shdEnable":0,

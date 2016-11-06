@@ -19,10 +19,7 @@ def add_items(items_dict):
         items_dict[k]["item"].name = v[NAME]
 
         tag = buildTag(v[TAGS]) if TAGS in v else TAG_DEFAULT
-        items_dict[k]["item"].setTag(tag)
-
-        if REORDER in v:
-            reorder(items_dict[k]["item"],v[REORDER])
+        items_dict[k]["item"].setTag(TAG, tag)
 
         if GTYP in v:
             items_dict[k]["item"].setTag('GTYP',v[GTYP])
@@ -35,6 +32,9 @@ def add_items(items_dict):
 
     for k, v in {k:v for k, v in items_dict.iteritems() if PARENT in v}.iteritems():
         items_dict[k]["item"].setParent(fetch_by_tag(v[PARENT]))
+
+    for k, v in {k:v for k, v in items_dict.iteritems() if REORDER in v}.iteritems():
+        reorder(items_dict[k]["item"],v[REORDER])
 
     # debug("parented items")
 
