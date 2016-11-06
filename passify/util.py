@@ -19,7 +19,7 @@ def fetch_tagged():
             tagged.add(i)
     return tagged
 
-def fetch_by_tag(tags, list = False):
+def fetch_by_tag(tags, list_=False):
     """Looks for an item in the current scene containing any of the supplied PSFY tags.
     Returns the first item encountered by default, or a list if list param is True.
     (Note: PSFY tags are hyphen-separated lists.)
@@ -37,10 +37,14 @@ def fetch_by_tag(tags, list = False):
         if [t for t in tag if t in i.getTags()[TAG].split(TAG_SEP)]:
             found.add(i)
 
-    if list_:
-        return list(found)
-    if not list_:
-        return found[0]
+    if found:
+        if list_:
+            return list(found)
+        if not list_:
+            return list(found)[0]
+
+    if not found:
+        return None
 
 def reorder(item,mode=TOP):
     """Reorders a modo item to the top or bottom of its parent hierarchy.
@@ -54,7 +58,7 @@ def reorder(item,mode=TOP):
     index = len(item.parent.children())-1 if mode == TOP else 0
     item.setParent(item.parent, index)
 
-def debug(message_string, do_break = False):
+def debug(message_string, do_break=False):
     """Prints a debug message in the Event Log if DEBUG is True.
     Throws a dialog with the same message if BREAKPOINTS and do_break are True.
 
@@ -65,9 +69,9 @@ def debug(message_string, do_break = False):
     :type do_break: bool"""
 
     if BREAKPOINTS and do_break:
-        modo.dialogs.alert("breakpoint",message_string)
+        modo.dialogs.alert("breakpoint", message_string)
     if DEBUG:
-        lx.out(message("debug: " + message_string)
+        lx.out(message("debug: " + message_string))
 
 def deactivate_passes(pass_group):
     """Deactivates all passes in supplied pass group.
