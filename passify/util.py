@@ -107,7 +107,7 @@ def test_maskable(items):
     """
 
     if not isinstance(items,list):
-        items = [items]
+        items = list(items)
 
     hst_svc = lx.service.Host ()
     scn_svc = lx.service.Scene ()

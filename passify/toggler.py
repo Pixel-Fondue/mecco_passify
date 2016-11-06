@@ -34,7 +34,7 @@ def add_selected():
 
         actionclip = modo.Scene().addItem('actionclip')
         actionclip.name = " ".join((item.name, message("Pass")))
-        actionclip.setTag(TAG, buildTag(TOGGLER_PASS,item.id))
+        actionclip.setTag(TAG, buildTag((TOGGLER_PASS,item.id)))
 
         itemGraph = lx.object.ItemGraph(modo.Scene().GraphLookup('shadeLoc'))
         itemGraph.AddLink(group,actionclip)
