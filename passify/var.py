@@ -20,6 +20,16 @@ CHANNELS = "channels"
 GTYP = "GTYP"
 GROUPCHANNELS = "groupChannels"
 CHANNELWRITE = "channelWrite"
+GROUP = "group"
+PASS = "pass"
+
+CMD_MANAGER_DELETE = "passify.ManagerDelete"
+CMD_MANAGER_RENAME = "passify.ManagerRename"
+CMD_MANAGER_LIST_GROUP_CHANNELS = "passify.ManagerListGroupChannels"
+CMD_MANAGER_AUTOADD = "passify.ManagerAutoAdd"
+CMD_MANAGER_APPLY_DISCARD = "passify.ManagerApplyDiscard"
+CMD_MANAGER_LIST_MODIFIED_CHANNELS = "passify.ManagerListModifiedChannels"
+CMD_MANAGER_COMBINE_PASS_GROUPS = "passify.ManagerCombinePassGroups"
 
 CMD_QUICKFLOOR_ACTIVATE = "passify.QuickFloorActivate"
 CMD_QUICKFLOOR_ADD_ITEMS = 'passify.QuickFloorAddItems'

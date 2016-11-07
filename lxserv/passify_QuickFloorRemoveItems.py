@@ -1,8 +1,9 @@
-#Must be inside a folder called 'lxserv' somewhere in a MODO search path.
+# python
 
 import lx, lxu.command, traceback, passify, lxifc
 
-class cmd_remove_from_layer(lxu.command.BasicCommand):
+
+class CmdRemoveFromLayer(lxu.command.BasicCommand):
 
     def __init__(self):
         lxu.command.BasicCommand.__init__(self)
@@ -25,4 +26,4 @@ class cmd_remove_from_layer(lxu.command.BasicCommand):
     def basic_Enable(self,msg):
         return True
 
-lx.bless(cmd_remove_from_layer, passify.CMD_QUICKFLOOR_REMOVE_ITEMS)
+lx.bless(CmdRemoveFromLayer, passify.CMD_QUICKFLOOR_REMOVE_ITEMS)
