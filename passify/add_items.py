@@ -2,7 +2,7 @@
 
 import modo
 from util import *
-from symbol import *
+from var import *
 
 def add_items(items_dict):
 

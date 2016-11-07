@@ -2,25 +2,10 @@
 
 #TODO:
 
-####### Passify Toggler Popover
-
-# Add to Toggler
-# Remove from Toggler
-
-# Toggler FCL
-
-# This Never Happened
-
-
-####### Passify Lighting Popover
-
-# Genenerate/Update Light Passes
-# Lighting FCL
-
-# This Never Happened
-
 
 ####### Passify Passes Popover
+
+# Render Pass Group
 
 # Select Pass Group
 # Create Pass Group

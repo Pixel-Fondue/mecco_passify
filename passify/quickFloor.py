@@ -4,7 +4,7 @@ import lx, modo
 
 from add_items import *
 from util import *
-from symbol import *
+from var import *
 
 def build(hide_env_bg):
     passify_items = {
@@ -106,7 +106,8 @@ def build(hide_env_bg):
 
 def destroy():
     hitlist = list(fetch_by_tag(QUICKFLOOR, True))
-    # debug(", ".join([i.name for i in hitlist]))
+    if not hitlist:
+        return
     modo.Scene().removeItems(hitlist[0])
     if len(hitlist) > 1:
         destroy()

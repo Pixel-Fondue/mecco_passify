@@ -4,7 +4,7 @@ import lx, modo
 
 from add_items import *
 from util import *
-from symbol import *
+from var import *
 
 def build():
     passify_items = {
@@ -20,14 +20,17 @@ def build():
 
 def destroy():
     hitlist = fetch_by_tag(TOGGLER, True)
-    # debug(", ".join([i.name for i in hitlist]))
+    if not hitlist:
+        return
     modo.Scene().removeItems(hitlist[0])
     if len(hitlist) > 1:
         destroy()
 
 def add_selected():
-    for item in get_selected_and_maskable():
+    group = fetch_by_tag(TOGGLER_PGRP)
+    items = get_selected_and_maskable()
 
+    for item in items:
         channel = item.channel('render')
         if channel not in group.groupChannels:
             group.addChannel(channel)
@@ -36,19 +39,22 @@ def add_selected():
         actionclip.name = " ".join((item.name, message("Pass")))
         actionclip.setTag(TAG, buildTag((TOGGLER_PASS,item.id)))
 
-        itemGraph = lx.object.ItemGraph(modo.Scene().GraphLookup('shadeLoc'))
+        itemGraph = lx.object.ItemGraph(modo.Scene().GraphLookup('itemGroups'))
         itemGraph.AddLink(group,actionclip)
 
-        for pass_ in [p for p in group.itemGraph('shadeLoc').forward() if p.type == 'actionclip']:
-            item.channel('render').set(0, action=pass_.name)
+    for item in [i._item for i in group.groupChannels]:
+        for pass_ in [p for p in group.itemGraph('itemGroups').forward() if p.type == 'actionclip']:
+            item.channel('render').set(2, action=pass_.name)
 
-        item.channel('render').set(1, action=actionclip.name)
+        item.channel('render').set(1, action=fetch_by_tag(item.id).name)
 
 def remove_selected():
+    group = fetch_by_tag(TOGGLER_PGRP)
+
     for item in get_selected_and_maskable():
         channel = item.channel('render')
         if channel not in group.groupChannels:
-            group.removeChannel(channel)
+            group.removeChannel('render', item)
 
         actionclip = fetch_by_tag(item.id)
         if actionclip != None:

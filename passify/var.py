@@ -43,9 +43,20 @@ QUICKFLOOR_BG_PASS = "qf_bg_pass"
 CMD_TOGGLER_ADD = "passify.TogglerAddItems"
 CMD_TOGGLER_REMOVE = "passify.TogglerRemoveItems"
 CMD_TOGGLER_FCL = "passify.TogglerFCL"
-CMD_TOGGLER_DESTORY = "passify.TogglerDestroy"
+CMD_TOGGLER_DESTROY = "passify.TogglerDestroy"
+CMD_TOGGLER_ACTIVATE = "passify.TogglerActivate"
 
 TOGGLER = "toggler"
 
 TOGGLER_PGRP = "tglr_pGrp"
 TOGGLER_PASS = "tglr_pass"
+
+CMD_ULTRALIGHT_SETUP = "passify.UltralightSetup"
+CMD_ULTRALIGHT_DESTROY = "passify.UltralightDestroy"
+CMD_ULTRALIGHT_FCL = "passify.UltralightFCL"
+CMD_ULTRALIGHT_ACTIVATE = "passify.UltralightActivate"
+
+ULTRALIGHT = "ultralight"
+
+ULTRALIGHT_PGRP = "ultra_pGrp"
+ULTRALIGHT_PASS = "ultra_pass"

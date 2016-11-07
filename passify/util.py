@@ -1,7 +1,7 @@
 #python
 
 import lx, modo
-from symbol import *
+from var import *
 
 def message(key_string):
     """Retreive from passify message table."""
@@ -71,7 +71,7 @@ def debug(message_string, do_break=False):
     if BREAKPOINTS and do_break:
         modo.dialogs.alert("breakpoint", message_string)
     if DEBUG:
-        lx.out(message("debug: " + message_string))
+        lx.out("debug: " + message_string)
 
 def deactivate_passes(pass_group):
     """Deactivates all passes in supplied pass group.
@@ -106,8 +106,8 @@ def test_maskable(items):
     :type items: object or list of objects
     """
 
-    if not isinstance(items,list):
-        items = list(items)
+    if not isinstance(items,(list, tuple)):
+        items = [items]
 
     hst_svc = lx.service.Host ()
     scn_svc = lx.service.Scene ()
