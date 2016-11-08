@@ -15,11 +15,17 @@ class commandClass(lxu.command.BasicCommand):
 
         if mode == passify.APPLY:
             lx.eval('edit.apply')
-            lx.eval('passify.ManagerAutoAdd 0')
+            try:
+                lx.eval('!passify.ManagerAutoAdd 0')
+            except:
+                pass
 
         if mode == passify.DISCARD:
             lx.eval('edit.discard')
-            lx.eval('passify.ManagerAutoAdd 0')
+            try:
+                lx.eval('!passify.ManagerAutoAdd 0')
+            except:
+                pass
 
     def basic_Execute(self, msg, flags):
         try:

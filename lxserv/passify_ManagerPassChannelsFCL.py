@@ -3,12 +3,11 @@
 import lx, lxifc, lxu.command, modo, passify
 
 def list_passes():
-
     try:
         group = lx.eval('group.current group:? type:pass')
         group = modo.Scene().item(group)
     except:
-        pass
+        return []
 
     item_ids = set()
     for c in group.groupChannels:
@@ -21,6 +20,9 @@ def list_passes():
     for item_id in item_ids:
         channels_dict[item_id] = []
 
+    if len(group.groupChannels) == 0:
+        return []
+
     for c in group.groupChannels:
         item = c.item
         if item.type == 'translation':
@@ -31,7 +33,7 @@ def list_passes():
     fcl = []
     for item_id, channels_list in channels_dict.iteritems():
         fcl.append('- ' + modo.Scene().item(item_id).name)
-        for channel_tuple in channels_list:
+        for channel_tuple in sorted(channels_list, key=lambda tup: tup[0]):
             fcl.append('item.channel item:{%s} name:{%s} value:?' % (channel_tuple[0], channel_tuple[1]))
 
     return fcl

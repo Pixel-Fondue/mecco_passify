@@ -35,6 +35,10 @@ def add_selected():
         if channel not in group.groupChannels:
             group.addChannel(channel)
 
+        channel = item.channel('visible')
+        if channel not in group.groupChannels:
+            group.addChannel(channel)
+
         actionclip = modo.Scene().addItem('actionclip')
         actionclip.name = " ".join((item.name, message("Pass")))
         actionclip.setTag(TAG, buildTag((TOGGLER_PASS,item.id)))
@@ -45,8 +49,10 @@ def add_selected():
     for item in [i._item for i in group.groupChannels]:
         for pass_ in [p for p in group.itemGraph('itemGroups').forward() if p.type == 'actionclip']:
             item.channel('render').set(2, action=pass_.name)
+            item.channel('visible').set(2, action=pass_.name)
 
         item.channel('render').set(1, action=fetch_by_tag(item.id).name)
+        item.channel('visible').set(1, action=fetch_by_tag(item.id).name)
 
 def remove_selected():
     group = fetch_by_tag(TOGGLER_PGRP)

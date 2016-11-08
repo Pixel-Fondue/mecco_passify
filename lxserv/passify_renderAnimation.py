@@ -43,7 +43,7 @@ class myGreatCommand(lxu.command.BasicCommand):
             try:
                 group = passify.fetch_by_tag(group).id
             except:
-                pass
+                return False
 
         try:
             group = group if group else lx.eval('group.current group:? type:pass')
@@ -51,11 +51,7 @@ class myGreatCommand(lxu.command.BasicCommand):
             return False
 
         if group:
-            try:
-                if modo.Scene().item(group).type == 'render':
-                    return True
-            except:
-                return False
+            return True
 
         return False
 
