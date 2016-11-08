@@ -10,5 +10,6 @@ try:
     from var import *
     from notifier import Notifier
     from add_items import add_items
+    from combine import *
 except:
     traceback.print_exc()

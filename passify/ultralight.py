@@ -6,7 +6,7 @@ from add_items import *
 from util import *
 from var import *
 
-def build(include_environments, include_lumigons, headroom):
+def build(full_scene, include_environments, include_lumigons, headroom):
     group = fetch_by_tag(ULTRALIGHT_PGRP)
 
     if not group:
@@ -24,20 +24,34 @@ def build(include_environments, include_lumigons, headroom):
     for pass_ in [p for p in group.itemGraph('itemGroups').forward() if p.type == 'actionclip']:
         modo.Scene().removeItems(pass_)
 
+    if full_scene:
+        scope = modo.Scene().items()
+
+    elif len(modo.Scene().selected) > 0:
+        scope = modo.Scene().selected
+        
+    else:
+        scope = modo.Scene().items()
+
     items = set()
-    for i in modo.Scene().iterItems():
-        if 'radiance' not in i.channelNames:
+    for item in scope:
+        if item.type == 'renderOutput':
             continue
-        if not include_environments and i.type == 'environment':
+        if not include_environments and item.type == 'environment':
             continue
-        if not include_lumigons and not i.isLocatorSuperType():
+        if not include_lumigons and not item.isLocatorSuperType():
             continue
-        if i.channel('radiance').get() > 0:
-            items.add(i)
+
+        light_channels = [l for l in item.channels() if l.storageType == 'light']
+        if not light_channels:
+            continue
+
+        if light_channels[0].get() > 0 and not light_channels[0].revLinked:
+            items.add(item)
 
     for item in items:
         # debug(item.name,True)
-        channel = item.channel('radiance')
+        channel = [l for l in item.channels() if l.storageType == 'light'][0]
         if channel not in group.groupChannels:
             group.addChannel(channel)
 
@@ -49,12 +63,13 @@ def build(include_environments, include_lumigons, headroom):
         itemGraph.AddLink(group,actionclip)
 
     for item in [i._item for i in group.groupChannels]:
+        channel = [l for l in item.channels() if l.storageType == 'light'][0]
         for pass_ in [p for p in group.itemGraph('itemGroups').forward() if p.type == 'actionclip']:
-            item.channel('radiance').set(0.0, action=pass_.name)
+            channel.set(0.0, action=pass_.name)
 
-        value = item.channel('radiance').get()
+        value = channel.get()
         value =  value + (value * headroom)
-        item.channel('radiance').set(value, action=fetch_by_tag(item.id).name)
+        channel.set(value, action=fetch_by_tag(item.id).name)
 
     return group
 
