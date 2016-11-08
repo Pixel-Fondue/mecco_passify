@@ -1,3 +1,5 @@
+# python
+
 import lx, modo, lxu.command, traceback, passify
 
 class myGreatCommand(lxu.command.BasicCommand):
@@ -31,7 +33,7 @@ class myGreatCommand(lxu.command.BasicCommand):
             active_group = lx.eval('group.current group:? type:pass')
 
             if not active_group:
-                modo.dialogs.alert(passify.message('error','no_active_pass'))
+                modo.dialogs.alert('error',passify.message('no_active_pass'))
                 return lx.symbol.e_FAILED
 
             color = lx.eval('user.value mecco_passify_autoAddColor ?')

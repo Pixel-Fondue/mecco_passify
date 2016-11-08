@@ -1,4 +1,4 @@
-#Must be inside a folder called 'lxserv' somewhere in a MODO search path.
+# python
 
 import lx, lxu.command, traceback, passify, lxifc
 

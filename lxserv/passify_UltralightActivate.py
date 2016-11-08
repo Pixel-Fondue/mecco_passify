@@ -1,4 +1,4 @@
-#python
+# python
 
 import lx, lxifc, lxu.command, modo, passify
 

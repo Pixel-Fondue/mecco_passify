@@ -1,3 +1,5 @@
+# python
+
 import lx, lxu.command, passify
 
 class commandClass(lxu.command.BasicCommand):

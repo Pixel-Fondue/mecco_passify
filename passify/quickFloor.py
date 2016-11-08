@@ -1,4 +1,4 @@
-#python
+# python
 
 import lx, modo
 
@@ -139,6 +139,6 @@ def remove_selected(group):
     for i in get_selected_and_maskable():
         itemGraph = lx.object.ItemGraph(modo.Scene().GraphLookup('itemGroups'))
         if group == QUICKFLOOR_FOREGROUND:
-            itemGraph.DeleteLink(fetch_by_tag(QUICKFLOOR_FG_GRP,type_='renderPassGroups'),i)
+            itemGraph.DeleteLink(fetch_by_tag(QUICKFLOOR_FG_GRP,type_='groups'),i)
         if group == QUICKFLOOR_BACKGROUND:
-            itemGraph.DeleteLink(fetch_by_tag(QUICKFLOOR_BG_GRP,type_='renderPassGroups'),i)
+            itemGraph.DeleteLink(fetch_by_tag(QUICKFLOOR_BG_GRP,type_='groups'),i)

@@ -1,4 +1,4 @@
-#python
+# python
 
 import lx, modo
 from var import *
@@ -35,8 +35,8 @@ def fetch_by_tag(tags, list_=False, type_=None):
     Returns the first item encountered by default, or a list if list param is True.
     (Note: PSFY tags are hyphen-separated lists.)
 
-    :param tag: PSFY tag to find
-    :type tag: str or list
+    :param tags: PSFY tag to find
+    :type tags: str or list
 
     :param list_: return a list instead of first encounter
     :type list_: bool
@@ -71,8 +71,8 @@ def debug(message_string, do_break=False):
     """Prints a debug message in the Event Log if DEBUG is True.
     Throws a dialog with the same message if BREAKPOINTS and do_break are True.
 
-    :param message: message to display
-    :type message: str
+    :param message_string: message to display
+    :type message_string: str
 
     :param do_break: throw dialog
     :type do_break: bool"""

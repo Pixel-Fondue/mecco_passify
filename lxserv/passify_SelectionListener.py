@@ -1,3 +1,5 @@
+# python
+
 import lx, lxifc, lxu, passify
 
 class MySelectionListener(lxifc.SelectionListener):

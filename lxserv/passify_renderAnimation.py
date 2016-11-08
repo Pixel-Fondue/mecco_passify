@@ -1,3 +1,5 @@
+# python
+
 import lx, modo, lxu.command, traceback, passify
 
 class myGreatCommand(lxu.command.BasicCommand):
