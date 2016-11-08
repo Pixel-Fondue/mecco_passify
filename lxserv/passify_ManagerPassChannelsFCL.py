@@ -1,0 +1,88 @@
+#python
+
+import lx, lxifc, lxu.command, modo, passify
+
+def list_passes():
+
+    try:
+        group = lx.eval('group.current group:? type:pass')
+        group = modo.Scene().item(group)
+    except:
+        pass
+
+    item_ids = set()
+    for c in group.groupChannels:
+        item = c.item
+        if item.type == 'translation':
+            item = c.item.itemGraph('xfrmCore').forward()[0]
+        item_ids.add(item.id)
+
+    channels_dict = {}
+    for item_id in item_ids:
+        channels_dict[item_id] = []
+
+    for c in group.groupChannels:
+        item = c.item
+        if item.type == 'translation':
+            item = c.item.itemGraph('xfrmCore').forward()[0]
+
+        channels_dict[item.id].append((c.item.id, c.name))
+
+    fcl = []
+    for item_id, channels_list in channels_dict.iteritems():
+        fcl.append('- ' + modo.Scene().item(item_id).name)
+        for channel_tuple in channels_list:
+            fcl.append('item.channel item:{%s} name:{%s} value:?' % (channel_tuple[0], channel_tuple[1]))
+
+    return fcl
+
+
+class passify_fcl(lxifc.UIValueHints):
+    def __init__(self, items):
+        self._items = items
+
+    def uiv_Flags(self):
+        return lx.symbol.fVALHINT_FORM_COMMAND_LIST
+
+    def uiv_FormCommandListCount(self):
+        return len(self._items)
+
+    def uiv_FormCommandListByIndex(self,index):
+        return self._items[index]
+
+
+class cmd_passify_fcl(lxu.command.BasicCommand):
+    def __init__(self):
+        lxu.command.BasicCommand.__init__(self)
+        self.dyna_Add('query', lx.symbol.sTYPE_INTEGER)
+        self.basic_SetFlags(0, lx.symbol.fCMDARG_QUERY)
+
+        self.not_svc = lx.service.NotifySys()
+        self.notifier = None
+
+    def cmd_NotifyAddClient (self, argument, object):
+        if self.notifier is None:
+            self.notifier = self.not_svc.Spawn ("passify.notifier", '')
+            self.notifier.AddClient (object)
+
+    def cmd_NotifyRemoveClient (self, object):
+        if self.notifier is not None:
+            self.notifier.RemoveClient (object)
+
+    def arg_UIValueHints(self, index):
+        if index == 0:
+            return passify_fcl(list_passes())
+        return Passify_FCL_Notifiers()
+
+    def cmd_Execute(self,flags):
+        pass
+
+    def cmd_Query(self,index,vaQuery):
+        pass
+
+lx.bless(cmd_passify_fcl, passify.CMD_MANAGER_PASS_CHANNELS_FCL)
+
+class Passify_FCL_Notifiers(lxu.command.BasicHints):
+
+    def __init__(self):
+        self._notifiers = [('notifier.layerAutoAdd',''),('notifier.editAction',''),("select.event", "item +l")]

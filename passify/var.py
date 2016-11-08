@@ -29,6 +29,7 @@ CMD_RENDER = "passify.render"
 CMD_RENDER_ANIM = "passify.renderAnimation"
 
 CMD_MANAGER_DELETE = "passify.ManagerDelete"
+CMD_MANAGER_PASS_CHANNELS_FCL = "passify.ManagerPassChannels"
 CMD_MANAGER_RENAME = "passify.ManagerRename"
 CMD_MANAGER_HAUL_GROUP_CHANNELS = "passify.ManagerHaulGroupChannels"
 CMD_MANAGER_AUTOADD = "passify.ManagerAutoAdd"
