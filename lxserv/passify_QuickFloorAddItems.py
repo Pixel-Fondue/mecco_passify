@@ -15,7 +15,7 @@ class cmd_add_to_layer(lxu.command.BasicCommand):
     def CMD_EXE(self, msg, flags):
         group = self.dyna_String(0)
 
-        if passify.fetch_by_tag(passify.QUICKFLOOR_PGRP) == None:
+        if not passify.fetch_by_tag(passify.QUICKFLOOR_PGRP,type_='renderPassGroups'):
             lx.eval(passify.CMD_QUICKFLOOR_SETUP)
 
         passify.quickFloor.add_selected(group)

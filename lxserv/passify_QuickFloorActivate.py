@@ -24,7 +24,7 @@ class cmd_passify_activate(lxu.command.BasicCommand):
         item_id = self.dyna_String(0) if self.dyna_IsSet(0) else None
 
         if item_id == passify.NONE:
-            graph_kids = passify.fetch_by_tag(passify.QUICKFLOOR_PGRP).itemGraph('itemGroups').forward()
+            graph_kids = passify.fetch_by_tag(passify.QUICKFLOOR_PGRP,type_='renderPassGroups').itemGraph('itemGroups').forward()
             passes = [i for i in graph_kids if i.type == lx.symbol.a_ACTIONCLIP]
 
             for p in passes:

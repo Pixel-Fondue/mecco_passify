@@ -7,7 +7,7 @@ from util import *
 from var import *
 
 def build(full_scene, include_environments, include_lumigons, headroom):
-    group = fetch_by_tag(ULTRALIGHT_PGRP)
+    group = fetch_by_tag(ULTRALIGHT_PGRP,type_='renderPassGroups')
 
     if not group:
         add_items({
@@ -19,7 +19,7 @@ def build(full_scene, include_environments, include_lumigons, headroom):
             }
         })
 
-    group = fetch_by_tag(ULTRALIGHT_PGRP)
+    group = fetch_by_tag(ULTRALIGHT_PGRP,type_='renderPassGroups')
 
     for pass_ in [p for p in group.itemGraph('itemGroups').forward() if p.type == 'actionclip']:
         modo.Scene().removeItems(pass_)
@@ -29,7 +29,7 @@ def build(full_scene, include_environments, include_lumigons, headroom):
 
     elif len(modo.Scene().selected) > 0:
         scope = modo.Scene().selected
-        
+
     else:
         scope = modo.Scene().items()
 

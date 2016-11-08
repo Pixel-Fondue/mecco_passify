@@ -2,6 +2,8 @@
 
 import lx, modo
 from var import *
+from inspect import currentframe, getouterframes
+from os.path import basename
 
 def message(key_string):
     """Retreive from passify message table."""
@@ -11,15 +13,25 @@ def buildTag(parts_list):
     """Concatenate tags comprised of multiple parts."""
     return TAG_SEP.join(parts_list)
 
-def fetch_tagged():
-    """Returns a list of modo items with PSFY tags."""
+def fetch_tagged(type_=None):
+    """Returns a list of modo items with PSFY tags.
+
+    :param type_: search only for items of type - improves performance
+    :type type_: str 'renderPassGroups', 'groups', 'locators', 'meshes', 'cameras', 'items' or 'actors'"""
+
     tagged = set()
-    for i in modo.Scene().iterItems():
-        if i.hasTag(TAG):
-            tagged.add(i)
+    if type_:
+        for i in getattr(modo.Scene(), type_):
+            if i.hasTag(TAG):
+                tagged.add(i)
+    elif not type_:
+        for i in modo.Scene().iterItems():
+            if i.hasTag(TAG):
+                tagged.add(i)
     return tagged
 
-def fetch_by_tag(tags, list_=False):
+
+def fetch_by_tag(tags, list_=False, type_=None):
     """Looks for an item in the current scene containing any of the supplied PSFY tags.
     Returns the first item encountered by default, or a list if list param is True.
     (Note: PSFY tags are hyphen-separated lists.)
@@ -28,23 +40,72 @@ def fetch_by_tag(tags, list_=False):
     :type tag: str or list
 
     :param list_: return a list instead of first encounter
-    :type list_: bool"""
+    :type list_: bool
+
+    :param type_: search only for items of type - improves performance
+    :type type_: str 'renderPassGroups', 'groups', 'locators', 'meshes', 'cameras', 'items', or 'actors'"""
 
     tags = [tags] if isinstance(tags, str) else tags
     found = set()
 
-    for i in fetch_tagged():
-        if [t for t in tags if t in i.getTags()[TAG].split(TAG_SEP)]:
-            found.add(i)
+    def matching_tags(i):
+        if not i.hasTag(TAG):
+            return False
 
-    if found:
-        if list_:
-            return list(found)
-        if not list_:
-            return list(found)[0]
+        return [t for t in tags if t in i.getTags()[TAG].split(TAG_SEP)]
 
-    if not found:
-        return None
+    if type_:
+
+        if type_ == 'items':
+            for i in modo.Scene().iterItems():
+                if matching_tags(i):
+                    if not list_:
+                        return i
+                    found.add(i)
+
+        elif type_ != 'items':
+            for i in getattr(modo.Scene(), type_):
+                if matching_tags(i):
+                    if not list_:
+                        return i
+                    found.add(i)
+
+    elif not type_:
+
+        # go through item types explicitly in order of priority to save cycles
+
+        for i in getattr(modo.Scene(), 'groups'):
+            if matching_tags(i):
+                if not list_:
+                    return i
+                found.add(i)
+
+        for i in getattr(modo.Scene(), 'locators'):
+            if matching_tags(i):
+                if not list_:
+                    return i
+                found.add(i)
+
+        for i in modo.Scene().items('actionclip'):
+            if matching_tags(i):
+                if not list_:
+                    return i
+                found.add(i)
+
+        for i in modo.Scene().items('mask'):
+            if matching_tags(i):
+                if not list_:
+                    return i
+                found.add(i)
+
+        for i in modo.Scene().items('defaultShader'):
+            if matching_tags(i):
+                if not list_:
+                    return i
+                found.add(i)
+
+    return list(found) if found else None
+
 
 def reorder(item,mode=TOP):
     """Reorders a modo item to the top or bottom of its parent hierarchy.
@@ -68,10 +129,14 @@ def debug(message_string, do_break=False):
     :param do_break: throw dialog
     :type do_break: bool"""
 
+
+    (frame, filename, line_number, function_name, lines, index) = getouterframes(currentframe())[1]
+    message = "%s line %s: %s" % (basename(filename), line_number, str(message_string))
+
     if BREAKPOINTS and do_break:
-        modo.dialogs.alert("breakpoint", str(message_string))
+        modo.dialogs.alert("breakpoint", message)
     if DEBUG:
-        lx.out("debug: " + str(message_string))
+        lx.out("debug: " + message)
 
 def deactivate_passes(pass_group):
     """Deactivates all passes in supplied pass group.

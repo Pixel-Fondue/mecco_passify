@@ -3,8 +3,10 @@
 import lx, lxifc, lxu.command, modo, passify
 
 def list_passes():
-
-    group = passify.fetch_by_tag(passify.TOGGLER_PGRP)
+    try:
+        group = passify.fetch_by_tag(passify.TOGGLER_PGRP,type_='renderPassGroups')
+    except:
+        return []
 
     if group == None:
         return []

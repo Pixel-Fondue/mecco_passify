@@ -17,16 +17,16 @@ class myGreatCommand(lxu.command.BasicCommand):
     def CMD_EXE(self, msg, flags):
         state = self.dyna_Int(0) if self.dyna_IsSet(0) else None
 
-        if not state:
-            state = 1 if lx.eval('layer.autoAdd state:?') == 'on' else 0
+        if state == None:
+            state = 0 if lx.eval('layer.autoAdd state:?') == 'on' else 1
 
-        if state == 1:
+        if state == 0:
 
             lx.eval('layer.autoAdd state:off')
             preset = lx.eval('scheme.loadPreset ?')
             lx.eval('scheme.loadPreset %s' % preset)
 
-        if state == 0:
+        if state == 1:
 
             active_group = lx.eval('group.current group:? type:pass')
 

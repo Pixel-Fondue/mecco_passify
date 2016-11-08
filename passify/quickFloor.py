@@ -111,7 +111,7 @@ def build(hide_env_bg):
 
     add_items(passify_items)
 
-    group = fetch_by_tag(QUICKFLOOR_PGRP)
+    group = fetch_by_tag(QUICKFLOOR_PGRP,type_='renderPassGroups')
     for i in modo.Scene().items('environment'):
         group.removeChannel('visCam',i)
         group.addChannel(i.channel('visCam'))
@@ -120,7 +120,7 @@ def build(hide_env_bg):
             i.channel('visCam').set(0, action=fetch_by_tag(QUICKFLOOR_BG_PASS).name)
 
 def destroy():
-    hitlist = list(fetch_by_tag(QUICKFLOOR, True))
+    hitlist = list(fetch_by_tag(QUICKFLOOR, True, 'items'))
     if not hitlist:
         return
     modo.Scene().removeItems(hitlist[0])
@@ -131,14 +131,14 @@ def add_selected(group):
     for i in get_selected_and_maskable():
         itemGraph = lx.object.ItemGraph(modo.Scene().GraphLookup('itemGroups'))
         if group == QUICKFLOOR_FOREGROUND:
-            itemGraph.AddLink(fetch_by_tag(QUICKFLOOR_FG_GRP),i)
+            itemGraph.AddLink(fetch_by_tag(QUICKFLOOR_FG_GRP,type_='groups'),i)
         if group == QUICKFLOOR_BACKGROUND:
-            itemGraph.AddLink(fetch_by_tag(QUICKFLOOR_BG_GRP),i)
+            itemGraph.AddLink(fetch_by_tag(QUICKFLOOR_BG_GRP,type_='groups'),i)
 
 def remove_selected(group):
     for i in get_selected_and_maskable():
         itemGraph = lx.object.ItemGraph(modo.Scene().GraphLookup('itemGroups'))
         if group == QUICKFLOOR_FOREGROUND:
-            itemGraph.DeleteLink(fetch_by_tag(QUICKFLOOR_FG_GRP),i)
+            itemGraph.DeleteLink(fetch_by_tag(QUICKFLOOR_FG_GRP,type_='renderPassGroups'),i)
         if group == QUICKFLOOR_BACKGROUND:
-            itemGraph.DeleteLink(fetch_by_tag(QUICKFLOOR_BG_GRP),i)
+            itemGraph.DeleteLink(fetch_by_tag(QUICKFLOOR_BG_GRP,type_='renderPassGroups'),i)

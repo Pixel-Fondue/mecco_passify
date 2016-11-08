@@ -11,7 +11,7 @@ class cmd_add_to_layer(lxu.command.BasicCommand):
         return lx.symbol.fCMD_MODEL | lx.symbol.fCMD_UNDO
 
     def CMD_EXE(self, msg, flags):
-        if passify.fetch_by_tag(passify.TOGGLER_PGRP) == None:
+        if passify.fetch_by_tag(passify.TOGGLER_PGRP,type_='renderPassGroups') == None:
             passify.toggler.build()
 
         passify.toggler.add_selected()

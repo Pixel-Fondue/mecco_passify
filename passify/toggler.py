@@ -27,7 +27,7 @@ def destroy():
         destroy()
 
 def add_selected():
-    group = fetch_by_tag(TOGGLER_PGRP)
+    group = fetch_by_tag(TOGGLER_PGRP,type_='renderPassGroups')
     items = get_selected_and_maskable()
 
     for item in items:
@@ -49,13 +49,20 @@ def add_selected():
     for item in [i._item for i in group.groupChannels]:
         for pass_ in [p for p in group.itemGraph('itemGroups').forward() if p.type == 'actionclip']:
             item.channel('render').set(2, action=pass_.name)
-            item.channel('visible').set(2, action=pass_.name)
+            item.channel('visible').set(3, action=pass_.name)
 
         item.channel('render').set(1, action=fetch_by_tag(item.id).name)
         item.channel('visible').set(1, action=fetch_by_tag(item.id).name)
 
+    try:
+        # TODO: this is a brute-force fix because 'visible' channels weren't being
+        # assigned properly in TD SDK. Ideally this would not be needed.
+        lx.eval('!edit.apply')
+    except:
+        pass
+
 def remove_selected():
-    group = fetch_by_tag(TOGGLER_PGRP)
+    group = fetch_by_tag(TOGGLER_PGRP,type_='renderPassGroups')
 
     for item in get_selected_and_maskable():
         channel = item.channel('render')

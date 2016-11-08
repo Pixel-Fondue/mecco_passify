@@ -3,21 +3,24 @@
 import lx, lxifc, lxu.command, modo, passify
 
 def list_passes():
-        group = passify.fetch_by_tag(passify.ULTRALIGHT_PGRP)
+    try:
+        group = passify.fetch_by_tag(passify.ULTRALIGHT_PGRP,type_='renderPassGroups')
+    except:
+        return []
 
-        if group == None:
-            return []
+    if group == None:
+        return []
 
-        graph_kids = group.itemGraph('itemGroups').forward()
-        passes = [i for i in graph_kids if i.type == lx.symbol.a_ACTIONCLIP]
+    graph_kids = group.itemGraph('itemGroups').forward()
+    passes = [i for i in graph_kids if i.type == lx.symbol.a_ACTIONCLIP]
 
-        passes_list = []
-        for p in passes:
-            passes_list.append(passify.CMD_ULTRALIGHT_ACTIVATE + " {%s}" % p.id)
+    passes_list = []
+    for p in passes:
+        passes_list.append(passify.CMD_ULTRALIGHT_ACTIVATE + " {%s}" % p.id)
 
-        passes_list.append(passify.CMD_ULTRALIGHT_ACTIVATE + " {%s}" % passify.NONE)
+    passes_list.append(passify.CMD_ULTRALIGHT_ACTIVATE + " {%s}" % passify.NONE)
 
-        return passes_list
+    return passes_list
 
 
 class passify_fcl(lxifc.UIValueHints):

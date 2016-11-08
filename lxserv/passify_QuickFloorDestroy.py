@@ -25,11 +25,12 @@ class cmd_destroy(lxu.command.BasicCommand):
             lx.out(traceback.format_exc())
 
     def basic_Enable(self,msg):
-        if passify.fetch_by_tag(passify.QUICKFLOOR_PGRP):
-            return True
-        else:
+        try:
+            if passify.fetch_by_tag(passify.QUICKFLOOR_PGRP,type_='renderPassGroups'):
+                return True
+        except:
             return False
-
+        return False
 
 class Notifiers(lxu.command.BasicHints):
 

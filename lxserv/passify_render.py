@@ -13,7 +13,7 @@ class myGreatCommand(lxu.command.BasicCommand):
 
     def CMD_EXE(self, msg, flags):
         group = self.dyna_String(0) if self.dyna_IsSet(0) else None
-        group = passify.fetch_by_tag(group).id if group else None
+        group = passify.fetch_by_tag(group,type_='renderPassGroups').id if group else None
 
         if not group:
             try:
@@ -41,7 +41,7 @@ class myGreatCommand(lxu.command.BasicCommand):
         group = self.dyna_String(0) if self.dyna_IsSet(0) else None
         if group:
             try:
-                group = passify.fetch_by_tag(group).id
+                group = passify.fetch_by_tag(group,type_='renderPassGroups').id
             except:
                 return False
 
