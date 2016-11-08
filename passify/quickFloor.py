@@ -120,7 +120,7 @@ def build(hide_env_bg):
             i.channel('visCam').set(0, action=fetch_by_tag(QUICKFLOOR_BG_PASS).name)
 
 def destroy():
-    hitlist = list(fetch_by_tag(QUICKFLOOR, True, 'items'))
+    hitlist = list(fetch_by_tag(QUICKFLOOR, True))
     if not hitlist:
         return
     modo.Scene().removeItems(hitlist[0])

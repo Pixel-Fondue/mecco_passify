@@ -17,19 +17,18 @@ def fetch_tagged(type_=None):
     """Returns a list of modo items with PSFY tags.
 
     :param type_: search only for items of type - improves performance
-    :type type_: str 'renderPassGroups', 'groups', 'locators', 'meshes', 'cameras', 'items' or 'actors'"""
+    :type type_: str 'renderPassGroups', 'groups', 'locators', 'meshes', 'cameras', or 'actors'"""
 
     tagged = set()
     if type_:
         for i in getattr(modo.Scene(), type_):
             if i.hasTag(TAG):
                 tagged.add(i)
-    elif not type_:
+    if not type_:
         for i in modo.Scene().iterItems():
             if i.hasTag(TAG):
                 tagged.add(i)
     return tagged
-
 
 def fetch_by_tag(tags, list_=False, type_=None):
     """Looks for an item in the current scene containing any of the supplied PSFY tags.
@@ -43,69 +42,18 @@ def fetch_by_tag(tags, list_=False, type_=None):
     :type list_: bool
 
     :param type_: search only for items of type - improves performance
-    :type type_: str 'renderPassGroups', 'groups', 'locators', 'meshes', 'cameras', 'items', or 'actors'"""
+    :type type_: str 'renderPassGroups', 'groups', 'locators', 'meshes', 'cameras', or 'actors'"""
 
     tags = [tags] if isinstance(tags, str) else tags
     found = set()
 
-    def matching_tags(i):
-        if not i.hasTag(TAG):
-            return False
-
-        return [t for t in tags if t in i.getTags()[TAG].split(TAG_SEP)]
-
-    if type_:
-
-        if type_ == 'items':
-            for i in modo.Scene().iterItems():
-                if matching_tags(i):
-                    if not list_:
-                        return i
-                    found.add(i)
-
-        elif type_ != 'items':
-            for i in getattr(modo.Scene(), type_):
-                if matching_tags(i):
-                    if not list_:
-                        return i
-                    found.add(i)
-
-    elif not type_:
-
-        # go through item types explicitly in order of priority to save cycles
-
-        for i in getattr(modo.Scene(), 'groups'):
-            if matching_tags(i):
-                if not list_:
-                    return i
-                found.add(i)
-
-        for i in getattr(modo.Scene(), 'locators'):
-            if matching_tags(i):
-                if not list_:
-                    return i
-                found.add(i)
-
-        for i in modo.Scene().items('actionclip'):
-            if matching_tags(i):
-                if not list_:
-                    return i
-                found.add(i)
-
-        for i in modo.Scene().items('mask'):
-            if matching_tags(i):
-                if not list_:
-                    return i
-                found.add(i)
-
-        for i in modo.Scene().items('defaultShader'):
-            if matching_tags(i):
-                if not list_:
-                    return i
-                found.add(i)
+    for i in fetch_tagged(type_):
+        if [t for t in tags if t in i.getTags()[TAG].split(TAG_SEP)]:
+            if not list_:
+                return i
+            found.add(i)
 
     return list(found) if found else None
-
 
 def reorder(item,mode=TOP):
     """Reorders a modo item to the top or bottom of its parent hierarchy.
