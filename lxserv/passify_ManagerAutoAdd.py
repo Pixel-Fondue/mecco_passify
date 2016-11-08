@@ -5,20 +5,28 @@ class myGreatCommand(lxu.command.BasicCommand):
     def __init__(self):
         lxu.command.BasicCommand.__init__(self)
 
-        self.dyna_Add('state', lx.symbol.sTYPE_BOOLEAN)
-        self.basic_SetFlags(0, lx.symbol.fCMDARG_QUERY)
+        self.dyna_Add('state', lx.symbol.sTYPE_INTEGER)
+        self.basic_SetFlags(0, lx.symbol.fCMDARG_OPTIONAL)
+
+        self.dyna_Add('query', lx.symbol.sTYPE_BOOLEAN)
+        self.basic_SetFlags(1, lx.symbol.fCMDARG_QUERY | lx.symbol.fCMDARG_OPTIONAL)
 
     def cmd_Flags (self):
         return lx.symbol.fCMD_MODEL | lx.symbol.fCMD_UNDO
 
     def CMD_EXE(self, msg, flags):
-        if lx.eval('layer.autoAdd state:?') == 'on':
+        state = self.dyna_Int(0) if self.dyna_IsSet(0) else None
+
+        if not state:
+            state = 1 if lx.eval('layer.autoAdd state:?') == 'on' else 0
+
+        if state == 1:
 
             lx.eval('layer.autoAdd state:off')
             preset = lx.eval('scheme.loadPreset ?')
             lx.eval('scheme.loadPreset %s' % preset)
 
-        elif lx.eval('layer.autoAdd state:?') == 'off':
+        if state == 0:
 
             active_group = lx.eval('group.current group:? type:pass')
 
@@ -40,7 +48,7 @@ class myGreatCommand(lxu.command.BasicCommand):
     def cmd_Query(self,index,vaQuery):
         va = lx.object.ValueArray()
         va.set(vaQuery)
-        if index == 0:
+        if index == 1:
             if lx.eval('layer.autoAdd state:?') == 'on':
                 va.AddInt(1)
             else:
@@ -48,15 +56,22 @@ class myGreatCommand(lxu.command.BasicCommand):
         return lx.result.OK
 
     def arg_UIValueHints(self, index):
-        return Cropper_Channel_Notifiers()
+        return Notifiers()
 
     def basic_Enable(self,msg):
-        return True
+        try:
+            group = lx.eval('group.current group:? type:pass')
+        except:
+            return False
 
+        if group:
+            return True
 
-class Cropper_Channel_Notifiers(lxu.command.BasicHints):
+        return False
+
+class Notifiers(lxu.command.BasicHints):
 
     def __init__(self):
-        self._notifiers = [('notifier.layerAutoAdd','')]
+        self._notifiers = [('notifier.layerAutoAdd',''),('notifier.editAction','')]
 
 lx.bless(myGreatCommand, passify.CMD_MANAGER_AUTOADD)

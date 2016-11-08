@@ -25,6 +25,15 @@ class cmd_destroy(lxu.command.BasicCommand):
             lx.out(traceback.format_exc())
 
     def basic_Enable(self,msg):
-        return True
+        if passify.fetch_by_tag(passify.ULTRALIGHT_PGRP):
+            return True
+        else:
+            return False
+
+
+class Notifiers(lxu.command.BasicHints):
+
+    def __init__(self):
+        self._notifiers = [('notifier.layerAutoAdd',''),('notifier.editAction','')]
 
 lx.bless(cmd_destroy, passify.CMD_ULTRALIGHT_DESTROY)

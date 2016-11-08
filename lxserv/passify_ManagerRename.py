@@ -25,4 +25,28 @@ class commandClass(lxu.command.BasicCommand):
             if the_pass:
                 modo.Scene().item(the_pass).name = name
 
+    def arg_UIValueHints(self, index):
+        return Notifiers()
+
+    def basic_Enable(self,msg):
+        if self.dyna_String(0) == passify.GROUP:
+            try:
+                lx.eval('group.current group:? type:pass')
+                return True
+            except:
+                return False
+        elif self.dyna_String(0) == passify.PASS:
+            try:
+                lx.eval('layer.active layer:? type:pass')
+                return True
+            except:
+                return False
+
+        return False
+
+class Notifiers(lxu.command.BasicHints):
+
+    def __init__(self):
+        self._notifiers = [('notifier.layerAutoAdd',''),('notifier.editAction','')]
+
 lx.bless(commandClass, passify.CMD_MANAGER_RENAME)

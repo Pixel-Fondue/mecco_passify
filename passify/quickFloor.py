@@ -19,7 +19,10 @@ def build(hide_env_bg):
             NAME:message(QUICKFLOOR_FG_MASK),
             TYPE:"mask",
             PARENT:QUICKFLOOR_MASKS,
-            REORDER:BOTTOM
+            REORDER:BOTTOM,
+            ITEMGRAPHS:[
+                ('shadeLoc',QUICKFLOOR_FG_GRP)
+                ],
         },
         QUICKFLOOR_FG_SHADER:{
             TAGS:[QUICKFLOOR, QUICKFLOOR_FG_SHADER],
@@ -55,10 +58,22 @@ def build(hide_env_bg):
                 "fogEnable":0
             }
         },
+        QUICKFLOOR_TOP_GRP:{
+            TAGS:[QUICKFLOOR, QUICKFLOOR_TOP_GRP],
+            NAME:message(QUICKFLOOR_TOP_GRP),
+            TYPE:"group"
+        },
+        QUICKFLOOR_FG_GRP:{
+            TAGS:[QUICKFLOOR, QUICKFLOOR_FG_GRP],
+            NAME:message(QUICKFLOOR_FG_GRP),
+            TYPE:"group",
+            PARENT:QUICKFLOOR_TOP_GRP
+        },
         QUICKFLOOR_BG_GRP:{
             TAGS:[QUICKFLOOR, QUICKFLOOR_BG_GRP],
             NAME:message(QUICKFLOOR_BG_GRP),
-            TYPE:"group"
+            TYPE:"group",
+            PARENT:QUICKFLOOR_TOP_GRP
         },
         QUICKFLOOR_PGRP:{
             TAGS:[QUICKFLOOR, QUICKFLOOR_PGRP],
@@ -112,12 +127,18 @@ def destroy():
     if len(hitlist) > 1:
         destroy()
 
-def add_selected():
+def add_selected(group):
     for i in get_selected_and_maskable():
         itemGraph = lx.object.ItemGraph(modo.Scene().GraphLookup('itemGroups'))
-        itemGraph.AddLink(fetch_by_tag(QUICKFLOOR_BG_GRP),i)
+        if group == QUICKFLOOR_FOREGROUND:
+            itemGraph.AddLink(fetch_by_tag(QUICKFLOOR_FG_GRP),i)
+        if group == QUICKFLOOR_BACKGROUND:
+            itemGraph.AddLink(fetch_by_tag(QUICKFLOOR_BG_GRP),i)
 
-def remove_selected():
+def remove_selected(group):
     for i in get_selected_and_maskable():
         itemGraph = lx.object.ItemGraph(modo.Scene().GraphLookup('itemGroups'))
-        itemGraph.DeleteLink(fetch_by_tag(QUICKFLOOR_BG_GRP),i)
+        if group == QUICKFLOOR_FOREGROUND:
+            itemGraph.DeleteLink(fetch_by_tag(QUICKFLOOR_FG_GRP),i)
+        if group == QUICKFLOOR_BACKGROUND:
+            itemGraph.DeleteLink(fetch_by_tag(QUICKFLOOR_BG_GRP),i)

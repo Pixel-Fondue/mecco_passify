@@ -25,6 +25,9 @@ PASS = "pass"
 APPLY = "apply"
 DISCARD = "discard"
 
+CMD_RENDER = "passify.render"
+CMD_RENDER_ANIM = "passify.renderAnimation"
+
 CMD_MANAGER_DELETE = "passify.ManagerDelete"
 CMD_MANAGER_RENAME = "passify.ManagerRename"
 CMD_MANAGER_HAUL_GROUP_CHANNELS = "passify.ManagerHaulGroupChannels"
@@ -41,11 +44,15 @@ CMD_QUICKFLOOR_SETUP = 'passify.QuickFloorSetup'
 
 QUICKFLOOR = "quickFloor"
 
+QUICKFLOOR_FOREGROUND = "foreground"
+QUICKFLOOR_BACKGROUND = "background"
 QUICKFLOOR_MASKS = "qf_masks"
 QUICKFLOOR_FG_MASK = "qf_fg_mask"
 QUICKFLOOR_FG_SHADER = "qf_fg_shader"
 QUICKFLOOR_BG_MASK = "qf_bg_mask"
 QUICKFLOOR_BG_SHADER = "qf_bg_shader"
+QUICKFLOOR_TOP_GRP = "qf_top_grp"
+QUICKFLOOR_FG_GRP = "qf_fg_grp"
 QUICKFLOOR_BG_GRP = "qf_bg_grp"
 QUICKFLOOR_PGRP = "qf_pGrp"
 QUICKFLOOR_FG_PASS = "qf_fg_pass"

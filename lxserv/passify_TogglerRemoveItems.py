@@ -22,7 +22,21 @@ class cmd_remove_from_layer(lxu.command.BasicCommand):
         except Exception:
             lx.out(traceback.format_exc())
 
+    def arg_UIValueHints(self, index):
+        return Notifiers()
+
     def basic_Enable(self,msg):
-        return True
+        if passify.get_selected_and_maskable() and passify.fetch_by_tag(passify.TOGGLER_PGRP):
+            return True
+        else:
+            return False
+
+
+class Notifiers(lxu.command.BasicHints):
+
+    def __init__(self):
+        self._notifiers = [
+          ("select.event", "item +l")
+        ]
 
 lx.bless(cmd_remove_from_layer, passify.CMD_TOGGLER_REMOVE)

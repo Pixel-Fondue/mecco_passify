@@ -24,4 +24,20 @@ class CMD(lxu.command.BasicCommand):
             monkey.util.debug(traceback.format_exc())
 
 
+    def basic_Enable(self,msg):
+        try:
+            group = lx.eval('group.current group:? type:pass')
+        except:
+            return False
+
+        if group:
+            return True
+
+        return False
+
+class Notifiers(lxu.command.BasicHints):
+
+    def __init__(self):
+        self._notifiers = [('notifier.layerAutoAdd',''),('notifier.editAction','')]
+
 lx.bless(CMD, passify.CMD_MANAGER_COMBINE_PASS_GROUPS)

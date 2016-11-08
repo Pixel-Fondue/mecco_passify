@@ -69,9 +69,9 @@ def debug(message_string, do_break=False):
     :type do_break: bool"""
 
     if BREAKPOINTS and do_break:
-        modo.dialogs.alert("breakpoint", message_string)
+        modo.dialogs.alert("breakpoint", str(message_string))
     if DEBUG:
-        lx.out("debug: " + message_string)
+        lx.out("debug: " + str(message_string))
 
 def deactivate_passes(pass_group):
     """Deactivates all passes in supplied pass group.
