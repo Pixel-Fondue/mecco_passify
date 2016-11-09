@@ -14,14 +14,14 @@ class commandClass(lxu.command.BasicCommand):
         mode = self.dyna_String(0)
 
         if mode == passify.APPLY:
-            safe_edit_apply()
+            passify.safe_edit_apply()
             try:
                 lx.eval('!passify.ManagerAutoAdd 0')
             except:
                 pass
 
         if mode == passify.DISCARD:
-            safe_edit_apply()
+            passify.safe_edit_apply()
             try:
                 lx.eval('!passify.ManagerAutoAdd 0')
             except:
