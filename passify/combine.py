@@ -77,4 +77,7 @@ def combine(master_group, groups, channels, max_depth, depth=0, passname_parts=[
                 c.set(c.get())
             except:
                 util.debug('Something went wrong setting channel "%s".' % (c.name))
-        lx.eval('edit.apply')
+        try:
+            lx.eval('!edit.apply')
+        except:
+            pass

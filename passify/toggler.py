@@ -55,8 +55,6 @@ def add_selected():
         item.channel('visible').set(1, action=fetch_by_tag(item.id).name)
 
     try:
-        # TODO: this is a brute-force fix because 'visible' channels weren't being
-        # assigned properly in TD SDK. Ideally this would not be needed.
         lx.eval('!edit.apply')
     except:
         pass
