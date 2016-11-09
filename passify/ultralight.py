@@ -71,10 +71,8 @@ def build(full_scene, include_environments, include_lumigons, headroom):
         value =  value + (value * headroom)
         channel.set(value, action=fetch_by_tag(item.id).name)
 
-    try:
+    if test_edit_apply():
         lx.eval('!edit.apply')
-    except:
-        pass
 
     return group
 

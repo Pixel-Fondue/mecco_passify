@@ -5,6 +5,17 @@ from var import *
 from inspect import currentframe, getouterframes
 from os.path import basename
 
+def test_edit_apply():
+    """Returns True if the 'edit.apply' command is enabled."""
+    cmd_svc = lx.service.Command()
+    cmd = cmd_svc.Spawn(lx.symbol.iCTAG_NULL, 'edit.apply')
+
+    try:
+        cmd.Enable(msg)
+        return True
+    except:
+        return False
+
 def message(key_string):
     """Retreive from passify message table."""
     return lx.eval('query messageservice msgfind ? @passify@%s@' % key_string)

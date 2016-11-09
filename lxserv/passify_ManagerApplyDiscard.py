@@ -24,10 +24,8 @@ class commandClass(lxu.command.BasicCommand):
                 pass
 
         if mode == passify.DISCARD:
-            try:
+            if test_edit_apply():
                 lx.eval('!edit.apply')
-            except:
-                pass
             try:
                 lx.eval('!passify.ManagerAutoAdd 0')
             except:
@@ -41,13 +39,7 @@ class commandClass(lxu.command.BasicCommand):
 
     def basic_Enable(self,msg):
         try:
-            cmd_svc = lx.service.Command()
-            cmd = cmd_svc.Spawn(lx.symbol.iCTAG_NULL, 'edit.apply')
-            try:
-                cmd.Enable(msg)
-                return True
-            except:
-                return False
+            return test_edit_apply()
         except Exception:
             lx.out(traceback.format_exc())
 

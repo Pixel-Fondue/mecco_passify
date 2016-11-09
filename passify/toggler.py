@@ -54,10 +54,8 @@ def add_selected():
         item.channel('render').set(1, action=fetch_by_tag(item.id).name)
         item.channel('visible').set(1, action=fetch_by_tag(item.id).name)
 
-    try:
+    if test_edit_apply():
         lx.eval('!edit.apply')
-    except:
-        pass
 
 def remove_selected():
     group = fetch_by_tag(TOGGLER_PGRP,type_='renderPassGroups')
