@@ -5,24 +5,25 @@ from var import *
 from inspect import currentframe, getouterframes
 from os.path import basename
 
-def test_edit_apply():
-    """Returns True if the 'edit.apply' command is enabled."""
-    cmd_svc = lx.service.Command()
-    cmd = cmd_svc.Spawn(lx.symbol.iCTAG_NULL, 'edit.apply')
-
-    try:
-        cmd.Enable(msg)
-        return True
-    except:
-        return False
+def is_enabled(cmd_string) :
+   msg = lx.service.Message().Allocate()
+   cmd = lx.service.Command().SpawnFromString(cmd_string)[2]
+   try:
+      cmd.Enable(msg)
+   except RuntimeError, e:
+      if e.message == 'bad result: CMD_DISABLED':
+         return False
+      raise
+   return True
 
 def safe_edit_apply():
     '''Runs an edit.apply without throwing any errors.'''
-    try:
-        lx.eval('!edit.apply')
-        return True
-    except:
-        return False
+    if is_enabled('edit.apply'):
+        try:
+            lx.eval('!edit.apply')
+            return True
+        except:
+            return False
 
 def message(key_string):
     """Retreive from passify message table."""

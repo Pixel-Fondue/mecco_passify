@@ -35,7 +35,7 @@ class commandClass(lxu.command.BasicCommand):
 
     def basic_Enable(self,msg):
         try:
-            return passify.test_edit_apply()
+            return passify.is_enabled('edit.apply')
         except Exception:
             lx.out(traceback.format_exc())
 
