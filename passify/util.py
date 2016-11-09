@@ -6,15 +6,20 @@ from inspect import currentframe, getouterframes
 from os.path import basename
 
 def is_enabled(cmd_string) :
-   msg = lx.service.Message().Allocate()
-   cmd = lx.service.Command().SpawnFromString(cmd_string)[2]
-   try:
+    """Returns True if the supplied modo command is enabled.
+
+    :param cmd_string: command to test, e.g. 'edit.apply'
+    :type cmd_string: str"""
+
+    msg = lx.service.Message().Allocate()
+    cmd = lx.service.Command().SpawnFromString(cmd_string)[2]
+    try:
       cmd.Enable(msg)
-   except RuntimeError, e:
+    except RuntimeError, e:
       if e.message == 'bad result: CMD_DISABLED':
          return False
       raise
-   return True
+    return True
 
 def safe_edit_apply():
     '''Runs an edit.apply without throwing any errors.'''
