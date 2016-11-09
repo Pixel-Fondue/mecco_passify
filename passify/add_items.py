@@ -62,8 +62,7 @@ def add_items(items_dict):
         for channel_tuple in v[CHANNELWRITE]:
             fetch_by_tag(channel_tuple[0]).channel(channel_tuple[1]).set(channel_tuple[2], action=v["item"].name)
 
-    if test_edit_apply():
-        lx.eval('!edit.apply')
+    safe_edit_apply()
     # debug("channels written to passes", True)
 
     # debug("end add_items", True)

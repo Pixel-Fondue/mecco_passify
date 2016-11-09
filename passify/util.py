@@ -16,6 +16,14 @@ def test_edit_apply():
     except:
         return False
 
+def safe_edit_apply():
+    '''Runs an edit.apply without throwing any errors.'''
+    try:
+        lx.eval('!edit.apply')
+        return True
+    except:
+        return False
+
 def message(key_string):
     """Retreive from passify message table."""
     return lx.eval('query messageservice msgfind ? @passify@%s@' % key_string)

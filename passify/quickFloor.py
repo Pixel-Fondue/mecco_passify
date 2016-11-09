@@ -119,8 +119,7 @@ def build(hide_env_bg):
         if hide_env_bg:
             i.channel('visCam').set(0, action=fetch_by_tag(QUICKFLOOR_BG_PASS).name)
 
-    if test_edit_apply():
-        lx.eval('!edit.apply')
+    safe_edit_apply()
 
 def destroy():
     hitlist = list(fetch_by_tag(QUICKFLOOR, True))

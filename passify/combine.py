@@ -78,5 +78,4 @@ def combine(master_group, groups, channels, max_depth, depth=0, passname_parts=[
             except:
                 util.debug('Something went wrong setting channel "%s".' % (c.name))
 
-        if test_edit_apply():
-            lx.eval('!edit.apply')
+        safe_edit_apply()
