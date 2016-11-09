@@ -24,7 +24,7 @@ class commandClass(lxu.command.BasicCommand):
                 pass
 
         if mode == passify.DISCARD:
-            if test_edit_apply():
+            if passify.test_edit_apply():
                 lx.eval('!edit.apply')
             try:
                 lx.eval('!passify.ManagerAutoAdd 0')
@@ -39,7 +39,7 @@ class commandClass(lxu.command.BasicCommand):
 
     def basic_Enable(self,msg):
         try:
-            return test_edit_apply()
+            return passify.test_edit_apply()
         except Exception:
             lx.out(traceback.format_exc())
 

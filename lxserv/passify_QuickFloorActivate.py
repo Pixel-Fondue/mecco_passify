@@ -32,7 +32,7 @@ class cmd_passify_activate(lxu.command.BasicCommand):
 
         if item_id != passify.NONE:
             try:
-                if test_edit_apply():
+                if passify.test_edit_apply():
                     lx.eval('!edit.apply')
                 modo.Scene().item(item_id).actionClip.SetActive(1)
             except NameError:
