@@ -21,7 +21,7 @@ class cmd_setup_class(lxu.command.BasicCommand):
     def cmd_DialogInit(self):
         if self._first_run:
             self.attr_SetInt(0, 1)
-            self.attr_SetInt(1, 1)
+            self.attr_SetInt(1, 0)
             self.after_first_run()
 
     @classmethod
