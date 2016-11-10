@@ -10,14 +10,18 @@ class cmd_setup_class(lxu.command.BasicCommand):
         lxu.command.BasicCommand.__init__(self)
 
         self.dyna_Add('hide_environments_bg', lx.symbol.sTYPE_BOOLEAN)
+        self.dyna_Add('shadow_catcher', lx.symbol.sTYPE_BOOLEAN)
 
     def arg_UIHints(self, index, hints):
         if index == 0:
             hints.Label(passify.message("hide_environments_bg"))
+        if index == 1:
+            hints.Label(passify.message("shadow_catcher"))
 
     def cmd_DialogInit(self):
         if self._first_run:
             self.attr_SetInt(0, 1)
+            self.attr_SetInt(1, 1)
             self.after_first_run()
 
     @classmethod
@@ -29,8 +33,9 @@ class cmd_setup_class(lxu.command.BasicCommand):
 
     def CMD_EXE(self, msg, flags):
         hide_environments_bg = self.dyna_Bool(0) if self.dyna_IsSet(0) else True
+        shadow_catcher = self.dyna_Bool(1) if self.dyna_IsSet(1) else True
 
-        passify.quickFloor.build(hide_environments_bg)
+        passify.quickFloor.build(hide_environments_bg, shadow_catcher)
 
         notifier = passify.Notifier()
         notifier.Notify(lx.symbol.fCMDNOTIFY_DATATYPE)

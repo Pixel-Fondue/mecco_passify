@@ -6,7 +6,7 @@ from add_items import *
 from util import *
 from var import *
 
-def build(hide_env_bg):
+def build(hide_env_bg, shadow_catcher):
     passify_items = {
         QUICKFLOOR_MASKS:{
             TAGS:[QUICKFLOOR, QUICKFLOOR_MASKS],
@@ -112,12 +112,20 @@ def build(hide_env_bg):
     add_items(passify_items)
 
     group = fetch_by_tag(QUICKFLOOR_PGRP,type_='renderPassGroups')
+
     for i in modo.Scene().items('environment'):
         group.removeChannel('visCam',i)
         group.addChannel(i.channel('visCam'))
         i.channel('visCam').set(0, action=fetch_by_tag(QUICKFLOOR_FG_PASS).name)
         if hide_env_bg:
             i.channel('visCam').set(0, action=fetch_by_tag(QUICKFLOOR_BG_PASS).name)
+
+    if shadow_catcher:
+        bg_shader = fetch_by_tag(QUICKFLOOR_BG_SHADER)
+        bg_pass = fetch_by_tag(QUICKFLOOR_BG_PASS)
+        bg_shader.channel('shdEnable').set(1, action=bg_pass.name)
+        bg_shader.channel('quaEnable').set(1, action=bg_pass.name)
+        bg_shader.channel('alphaType').set(2, action=bg_pass.name)
 
     safe_edit_apply()
 
