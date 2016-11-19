@@ -21,11 +21,14 @@ class commandClass(lxu.command.BasicCommand):
                 pass
 
         if mode == passify.DISCARD:
-            passify.safe_edit_apply()
+            passify.safe_edit_discard()
             try:
                 lx.eval('!passify.ManagerAutoAdd 0')
             except:
                 pass
+
+        notifier = passify.Notifier()
+        notifier.Notify(lx.symbol.fCMDNOTIFY_DATATYPE)
 
     def basic_Execute(self, msg, flags):
         try:

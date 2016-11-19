@@ -5,6 +5,11 @@ from var import *
 from inspect import currentframe, getouterframes
 from os.path import basename
 
+def selected_channels():
+    """Returns a list of tuples containing item id, channel index, and channel name for all selected channels"""
+    q = lx.evalN("query sceneservice selection ? channels")
+    return [t[1:-1].split(",") for t in q]
+
 def is_enabled(cmd_string) :
     """Returns True if the supplied modo command is enabled.
 
@@ -26,6 +31,15 @@ def safe_edit_apply():
     if is_enabled('edit.apply'):
         try:
             lx.eval('!edit.apply')
+            return True
+        except:
+            return False
+
+def safe_edit_discard():
+    '''Runs an edit.apply without throwing any errors.'''
+    if is_enabled('edit.discard'):
+        try:
+            lx.eval('!edit.discard')
             return True
         except:
             return False

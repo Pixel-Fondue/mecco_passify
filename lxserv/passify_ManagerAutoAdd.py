@@ -41,6 +41,9 @@ class myGreatCommand(lxu.command.BasicCommand):
             lx.eval('pref.value color.backdrop {%s}' % color)
             lx.eval('pref.value color.deformers {%s}' % color)
 
+        notifier = passify.Notifier()
+        notifier.Notify(lx.symbol.fCMDNOTIFY_DATATYPE)
+
     def basic_Execute(self, msg, flags):
         try:
             self.CMD_EXE(msg, flags)

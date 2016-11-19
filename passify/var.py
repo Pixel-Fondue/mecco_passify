@@ -33,6 +33,8 @@ CMD_MANAGER_PASS_CHANNELS_FCL = "passify.ManagerPassChannels"
 CMD_MANAGER_RENAME = "passify.ManagerRename"
 CMD_MANAGER_HAUL_GROUP_CHANNELS = "passify.ManagerHaulGroupChannels"
 CMD_MANAGER_AUTOADD = "passify.ManagerAutoAdd"
+CMD_MANAGER_CHANNELSADD = "passify.ManagerChannelsAdd"
+CMD_MANAGER_CHANNELSREMOVE = "passify.ManagerChannelsRemove"
 CMD_MANAGER_APPLY_DISCARD = "passify.ManagerApplyDiscard"
 CMD_MANAGER_COMBINE_PASS_GROUPS = "passify.ManagerCombinePassGroups"
 
