@@ -12,28 +12,37 @@ def list_passes():
     item_ids = set()
     for c in group.groupChannels:
         item = c.item
-        if item.type == 'translation':
+        if item.type in ('translation', 'rotation', 'scale'):
             item = c.item.itemGraph('xfrmCore').forward()[0]
         item_ids.add(item.id)
 
     channels_dict = {}
     for item_id in item_ids:
-        channels_dict[item_id] = []
+        channels_dict[item_id] = set()
 
     if len(group.groupChannels) == 0:
         return []
 
     for c in group.groupChannels:
         item = c.item
-        if item.type == 'translation':
+        if item.type in ('translation', 'rotation', 'scale'):
             item = c.item.itemGraph('xfrmCore').forward()[0]
 
-        channels_dict[item.id].append((c.item.id, c.name))
+        if any(x in c.name for x in ['.R', '.G', '.B']):
+            colorGroup = [i for i in group.groupChannels if (i.item.id == c.item.id and i.name.split('.')[0] == c.name.split('.')[0])]
+            print colorGroup
+
+            if len(colorGroup) == 3:
+                channels_dict[item.id].add((c.item.id, c.name.split('.')[0]))
+            else:
+                channels_dict[item.id].add((c.item.id, c.name))
+        else:
+            channels_dict[item.id].add((c.item.id, c.name))
 
     fcl = []
     for item_id, channels_list in channels_dict.iteritems():
         fcl.append('- ' + modo.Scene().item(item_id).name)
-        for channel_tuple in sorted(channels_list, key=lambda tup: tup[0]):
+        for channel_tuple in sorted(channels_list, key=lambda tup: tup[1]):
             fcl.append('item.channel item:{%s} name:{%s} value:?' % (channel_tuple[0], channel_tuple[1]))
 
     return fcl
