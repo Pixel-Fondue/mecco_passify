@@ -1,6 +1,6 @@
 # python
 
-import monkey, modo, lx, lxu, traceback, passify
+import modo, lx, lxu, traceback, passify
 
 class CMD(lxu.command.BasicCommand):
 
