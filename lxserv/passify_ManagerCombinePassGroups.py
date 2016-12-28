@@ -23,6 +23,9 @@ class CMD(lxu.command.BasicCommand):
         except Exception:
             monkey.util.debug(traceback.format_exc())
 
+        notifier = passify.Notifier()
+        notifier.Notify(lx.symbol.fCMDNOTIFY_DATATYPE)
+
 
     def basic_Enable(self,msg):
         try:

@@ -25,6 +25,9 @@ class commandClass(lxu.command.BasicCommand):
             if the_pass:
                 modo.Scene().item(the_pass).name = name
 
+        notifier = passify.Notifier()
+        notifier.Notify(lx.symbol.fCMDNOTIFY_DATATYPE)
+
     def arg_UIValueHints(self, index):
         return Notifiers()
 

@@ -22,6 +22,9 @@ class commandClass(lxu.command.BasicCommand):
             if the_pass:
                 modo.Scene().removeItems(the_pass)
 
+        notifier = passify.Notifier()
+        notifier.Notify(lx.symbol.fCMDNOTIFY_DATATYPE)
+
     def arg_UIValueHints(self, index):
         return Notifiers()
 
