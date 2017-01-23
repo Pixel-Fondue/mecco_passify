@@ -13,7 +13,7 @@ class CMD(lxu.command.BasicCommand):
                 selected_pass_groups = [g for g in selected_groups if g.type == 'render']
 
                 if selected_pass_groups:
-                    passify.combine.create_master_pass_group(selected_pass_groups)
+                    passify.create_master_pass_group(selected_pass_groups)
                 else:
                     modo.dialogs.alert(passify.message('error'), passify.message('select_a_pass_group'))
 
