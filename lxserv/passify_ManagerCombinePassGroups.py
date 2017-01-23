@@ -13,7 +13,7 @@ class CMD(lxu.command.BasicCommand):
                 selected_pass_groups = [g for g in selected_groups if g.type == 'render']
 
                 if selected_pass_groups:
-                    monkey.passes.create_master_pass_group(selected_pass_groups)
+                    passify.combine.create_master_pass_group(selected_pass_groups)
                 else:
                     modo.dialogs.alert(passify.message('error'), passify.message('select_a_pass_group'))
 
@@ -21,7 +21,7 @@ class CMD(lxu.command.BasicCommand):
                 modo.dialogs.alert(passify.message('error'), passify.message('select_a_pass_group'))
 
         except Exception:
-            monkey.util.debug(traceback.format_exc())
+            passify.util.debug(traceback.format_exc())
 
         notifier = passify.Notifier()
         notifier.Notify(lx.symbol.fCMDNOTIFY_DATATYPE)
