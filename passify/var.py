@@ -28,6 +28,7 @@ DISCARD = "discard"
 CMD_RENDER = "passify.render"
 CMD_RENDER_ANIM = "passify.renderAnimation"
 
+CMD_MANAGER_PASS_DUP = "passify.ManagerPassDup"
 CMD_MANAGER_DELETE = "passify.ManagerDelete"
 CMD_MANAGER_PASS_CHANNELS_FCL = "passify.ManagerPassChannels"
 CMD_MANAGER_RENAME = "passify.ManagerRename"
